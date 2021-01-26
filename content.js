@@ -1,6 +1,7 @@
 var scrollFromBackground = false;
 
 
+// TODO: verses isn't being found (it seems like the page doesn't reload - console statements aren't reloaded. I'm going to have to get the verses again after getting to the verses page)
 
 setTimeout(() => {
     let flexContainer = document.querySelector('#flexContainer');
@@ -9,17 +10,14 @@ setTimeout(() => {
     if(maxScroll === 0){ maxScroll = flexScroll }
     let verses = document.querySelectorAll('p[id^="p"]');
 
-    verses.forEach(verse => {
-        verse.addEventListener('mouseenter', e => {
-            // verse.scrollIntoView({
-            //     behavior: 'smooth',
-            //     block: 'center'
-            // })
+    verses.forEach(p => {
+        p.addEventListener('mouseenter', e => {
             e.target.style.backgroundColor = "yellow";
             chrome.runtime.sendMessage({ msg: 'verse-enter', id: e.target.id }, function (response) { });
         })
-        verse.addEventListener('mouseleave', e => {
+        p.addEventListener('mouseleave', e => {
             e.target.style.backgroundColor = "";
+            chrome.runtime.sendMessage({ msg: 'verse-leave', id: e.target.id }, function (response) { });
         })
     })
 
@@ -51,14 +49,21 @@ setTimeout(() => {
         }
         else if (request.msg === 'verse-enter'){
             for(let verse of verses){
-                verse.style.backgroundColor = "";
                 if(verse.id === request.id){
                     verse.scrollIntoView({
                         behavior: 'smooth',
                         block: 'center'
                     })
                     verse.style.backgroundColor = "yellow";
-                    continue;
+                    break;
+                }
+            }
+        }
+        else if (request.msg === 'verse-leave'){
+            for(let verse of verses){
+                if(verse.id === request.id){
+                    verse.style.backgroundColor = "";
+                    break;
                 }
             }
         }

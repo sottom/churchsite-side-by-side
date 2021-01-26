@@ -24,14 +24,16 @@ document.querySelector('#view').addEventListener('click', e => {
                 height: screen.height,
                 width: screen.width / 2,
                 left: 0,
-                top: 0
+                top: 0,
+                type: "normal"
             },
             {
                 url: 'https://www.churchofjesuschrist.org/study?lang=',
                 height: screen.height,
                 width: screen.width / 2,
                 left: screen.width / 2,
-                top: 0
+                top: 0,
+                type: "popup"
             }
         ]
     } else if (num_languages === 3) {
@@ -41,24 +43,65 @@ document.querySelector('#view').addEventListener('click', e => {
                 height: screen.height,
                 width: screen.width / 3,
                 left: 0,
-                top: 0
+                top: 0,
+                type: "normal"
             },
             {
                 url: 'https://www.churchofjesuschrist.org/study?lang=',
                 height: screen.height,
                 width: screen.width / 3,
                 left: screen.width / 3,
-                top: 0
+                top: 0,
+                type: "popup"
             },
             {
                 url: 'https://www.churchofjesuschrist.org/study?lang=',
                 height: screen.height,
                 width: screen.width / 3,
                 left: (screen.width / 3) * 2,
-                top: 0
+                top: 0,
+                type: "popup"
             },
         ]
 
+    } else if (num_languages === 4) {
+        configs = [
+            {
+                url: 'https://www.churchofjesuschrist.org/study?lang=',
+                height: screen.height / 2,
+                width: screen.width / 2,
+                left: 0,
+                top: 0,
+                type: "normal"
+            },
+            {
+                url: 'https://www.churchofjesuschrist.org/study?lang=',
+                height: screen.height / 2,
+                width: screen.width / 2,
+                left: screen.width / 2,
+                top: 0,
+                type: "popup"
+            },
+            {
+                url: 'https://www.churchofjesuschrist.org/study?lang=',
+                height: screen.height / 2,
+                width: screen.width / 2,
+                left: 0,
+                top: screen.height / 2,
+                type: "popup"
+            },
+            {
+                url: 'https://www.churchofjesuschrist.org/study?lang=',
+                height: screen.height / 2,
+                width: screen.width / 2,
+                left: screen.width / 2,
+                top: screen.height / 2,
+                type: "popup"
+            },
+        ]
+
+    } else {
+        alert('You must choose at least 2 languages')
     }
 
     if (!configs) return;
