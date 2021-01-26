@@ -1,7 +1,6 @@
 var scrollFromBackground = false;
 
 
-// TODO: verses isn't being found (it seems like the page doesn't reload - console statements aren't reloaded. I'm going to have to get the verses again after getting to the verses page)
 
 setTimeout(() => {
     let flexContainer = document.querySelector('#flexContainer');
