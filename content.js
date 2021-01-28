@@ -11,11 +11,11 @@ setTimeout(() => {
 
     verses.forEach(p => {
         p.addEventListener('mouseenter', e => {
-            e.target.style.backgroundColor = "yellow";
+            e.target.style.border = "3px dashed yellow";
             chrome.runtime.sendMessage({ msg: 'verse-enter', id: e.target.id }, function (response) { });
         })
         p.addEventListener('mouseleave', e => {
-            e.target.style.backgroundColor = "";
+            e.target.style.border = "";
             chrome.runtime.sendMessage({ msg: 'verse-leave', id: e.target.id }, function (response) { });
         })
     })
@@ -53,7 +53,7 @@ setTimeout(() => {
                         behavior: 'smooth',
                         block: 'center'
                     })
-                    verse.style.backgroundColor = "yellow";
+                    verse.style.border = "3px dashed yellow";
                     break;
                 }
             }
@@ -61,7 +61,7 @@ setTimeout(() => {
         else if (request.msg === 'verse-leave'){
             for(let verse of verses){
                 if(verse.id === request.id){
-                    verse.style.backgroundColor = "";
+                    verse.style.border = "";
                     break;
                 }
             }
