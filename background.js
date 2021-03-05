@@ -1,9 +1,3 @@
-// chrome.runtime.onInstalled.addListener(function () {
-//     chrome.storage.sync.set({ color: '#3aa757' }, function () {
-//         console.log('The color is green.');
-//     });
-// });
-
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.msg === 'create-windows') {
         console.log(request)
@@ -51,6 +45,3 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     });
 
 });
-
-let scrollAll = () => {
-}

@@ -3,19 +3,19 @@ var scrollFromBackground = false;
 
 
 setTimeout(() => {
-    let flexContainer = document.querySelector('#flexContainer');
-    let maxScroll = getWindowMaxScroll()
-    let flexScroll = getFlexContainerMaxScroll()
-    if(maxScroll === 0){ maxScroll = flexScroll }
+    // let flexContainer = document.querySelector('#flexContainer');
+    // let maxScroll = getWindowMaxScroll()
+    // let flexScroll = getFlexContainerMaxScroll()
+    // if(maxScroll === 0){ maxScroll = flexScroll }
     let verses = document.querySelectorAll('p[id^="p"]');
 
     verses.forEach(p => {
         p.addEventListener('mouseenter', e => {
-            e.target.style.border = "3px dashed yellow";
+            e.target.style.backgroundColor = "cadetblue";
             chrome.runtime.sendMessage({ msg: 'verse-enter', id: e.target.id }, function (response) { });
         })
         p.addEventListener('mouseleave', e => {
-            e.target.style.border = "";
+            e.target.style.backgroundColor = "";
             chrome.runtime.sendMessage({ msg: 'verse-leave', id: e.target.id }, function (response) { });
         })
     })
@@ -33,13 +33,13 @@ setTimeout(() => {
             scrollFromBackground = false;
             return;
         }
-        chrome.runtime.sendMessage({ msg: 'scroll', scroll: window.scrollY, maxScroll }, function (response) { });
+        chrome.runtime.sendMessage({ msg: 'scroll', scroll: window.scrollY, /*maxScroll*/ }, function (response) { });
     })
 
 
     chrome.runtime.onMessage.addListener(request => {
         console.log(request)
-        let ratio = maxScroll /request.maxScroll
+        // let ratio = maxScroll /request.maxScroll
         if (request.msg === 'scroll') {
             scrollFromBackground = true;
             // TODO: do scrolling by paragraph, not by ratios (highlight the to paragraph in the dom as you're scrolling)
@@ -53,7 +53,7 @@ setTimeout(() => {
                         behavior: 'smooth',
                         block: 'center'
                     })
-                    verse.style.border = "3px dashed yellow";
+                    verse.style.backgroundColor = "cadetblue";
                     break;
                 }
             }
@@ -61,7 +61,7 @@ setTimeout(() => {
         else if (request.msg === 'verse-leave'){
             for(let verse of verses){
                 if(verse.id === request.id){
-                    verse.style.border = "";
+                    verse.style.backgroundColor = "";
                     break;
                 }
             }
@@ -69,10 +69,10 @@ setTimeout(() => {
     })
 }, 10)
 
-let getFlexContainerMaxScroll = () => {
-    return flexContainer.scrollHeight - window.innerHeight
-}
+// let getFlexContainerMaxScroll = () => {
+//     return flexContainer.scrollHeight - window.innerHeight
+// }
 
-let getWindowMaxScroll = () => {
-    return document.body.clientHeight - window.innerHeight
-}
+// let getWindowMaxScroll = () => {
+//     return document.body.clientHeight - window.innerHeight
+// }
