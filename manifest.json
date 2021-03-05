@@ -1,35 +1,33 @@
 {
-    "name": "Getting Started Example",
-    "version": "1.0",
-    "description": "Build an Extension!",
-    "permissions": [
-        "storage", 
-        "scripting",
-        "tabs"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "https://www.churchofjesuschrist.org/*",
-                "http://www.churchofjesuschrist.org/*"
-            ],
-            "js": ["content.js"]
-        }
-    ],
-    "options_page": "options.html",
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-      }
-    },
-    "icons": {
-    },
-    "host_permissions": [
+  "name": "Church of Jesus Christ Site Side by Side",
+  "version": "0.0.1",
+  "description": "Read the Church of Jesus Christ of Latter-Day Saints website in up to 4 different languages side by side.",
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
         "https://www.churchofjesuschrist.org/*",
-        "*://*/*"
+        "http://www.churchofjesuschrist.org/*"
       ],
-    "manifest_version": 3
-  }
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {}
+  },
+  "icons": {
+    "16": "img/16.png",
+    "48": "img/48.png",
+    "128": "img/128.png"
+  },
+  "manifest_version": 3
+}
