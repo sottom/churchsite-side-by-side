@@ -1,16 +1,35 @@
+
 var scrollFromBackground = false;
+
+// const interval = setInterval(() => {
+
+// }, 500)
+
 
 
 
 setTimeout(() => {
+        const span = document.createElement('span');
+        span.innerHTML = `<select multiple="multiple" id="myMulti">
+        <option>Japanese</option>
+        <option>Spanish</option>
+        <option></option>
+        <option></option>
+        <option></option>
+      </select>`;
+        span.id = 'testingtesting'
+        const header = document.querySelectorAll('header')[1];
+        header.appendChild(span);
     // let flexContainer = document.querySelector('#flexContainer');
     // let maxScroll = getWindowMaxScroll()
     // let flexScroll = getFlexContainerMaxScroll()
     // if(maxScroll === 0){ maxScroll = flexScroll }
     let verses = document.querySelectorAll('p[id^="p"]');
+    console.log(verses);
 
     verses.forEach(p => {
         p.addEventListener('mouseenter', e => {
+            // TODO: get this from preferences
             e.target.style.backgroundColor = "cadetblue";
             chrome.runtime.sendMessage({ msg: 'verse-enter', id: e.target.id }, function (response) { });
         })
@@ -46,6 +65,9 @@ setTimeout(() => {
             // flexContainer.scrollTo(0, request.scroll)
             window.scrollTo(0, request.scroll)
         }
+        else if (request.msg === 'langs'){
+            console.log(request);
+        }
         else if (request.msg === 'verse-enter'){
             for(let verse of verses){
                 if(verse.id === request.id){
@@ -67,7 +89,7 @@ setTimeout(() => {
             }
         }
     })
-}, 10)
+}, 1000)
 
 // let getFlexContainerMaxScroll = () => {
 //     return flexContainer.scrollHeight - window.innerHeight

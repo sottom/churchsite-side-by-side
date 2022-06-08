@@ -5,118 +5,86 @@ let selects = Array.from(document.querySelectorAll('select'));
 let options = languages.map(lang => `<option value="${lang.ext}">${lang.name}</option>`)
 let blank_option = `<option value=""></option>`
 
-selects.forEach(select => {
+selects.forEach((select, i) => {
     select.innerHTML = blank_option + options;
+    if(i === 0) {
+        select.value = 'jpn'
+    }
 })
 
-document.querySelector('#view').addEventListener('click', e => {
+const view = document.querySelector('#view');
+
+view.addEventListener('click', e => {
+    const match = window.location.href.match(/([\s\S]+)\?[\s\S]/);
+    alert(window.location.href)
     let selected_langs = selects.filter(select => {
-        return select.value
-    })
+        return match[0] + '?lang=' + select.value;
+    });
+    alert(selected_langs.toString());
 
     // send those languages to the background to create windows
-    let num_languages = selected_langs.length;
-    let configs;
-    if (num_languages === 2) {
-        configs = [
-            {
-                url: 'https://www.churchofjesuschrist.org/study?lang=',
-                height: screen.height,
-                width: screen.width / 2,
-                left: 0,
-                top: 0,
-                type: "normal"
-            },
-            {
-                url: 'https://www.churchofjesuschrist.org/study?lang=',
-                height: screen.height,
-                width: screen.width / 2,
-                left: screen.width / 2,
-                top: 0,
-                type: "popup"
-            }
-        ]
-    } else if (num_languages === 3) {
-        configs = [
-            {
-                url: 'https://www.churchofjesuschrist.org/study?lang=',
-                height: screen.height,
-                width: screen.width / 3,
-                left: 0,
-                top: 0,
-                type: "normal"
-            },
-            {
-                url: 'https://www.churchofjesuschrist.org/study?lang=',
-                height: screen.height,
-                width: screen.width / 3,
-                left: screen.width / 3,
-                top: 0,
-                type: "popup"
-            },
-            {
-                url: 'https://www.churchofjesuschrist.org/study?lang=',
-                height: screen.height,
-                width: screen.width / 3,
-                left: (screen.width / 3) * 2,
-                top: 0,
-                type: "popup"
-            },
-        ]
+    // let num_languages = selected_langs.length;
+    // let configs = [];
+    // if (num_languages === 2) {
+    //     configs = [
+    //         {
+    //             url: 'https://www.churchofjesuschrist.org/study?lang=',
+    //             height: screen.height,
+    //             width: screen.width / 2,
+    //             left: 0,
+    //             top: 0,
+    //             type: "normal"
+    //         },
+    //         {
+    //             url: 'https://www.churchofjesuschrist.org/study?lang=',
+    //             height: screen.height,
+    //             width: screen.width / 2,
+    //             left: screen.width / 2,
+    //             top: 0,
+    //             type: "normal"
+    //         }
+    //     ]
+    // } else if (num_languages === 3) {
+    //     configs = [
+    //         {
+    //             url: 'https://www.churchofjesuschrist.org/study?lang=',
+    //             height: screen.height,
+    //             width: screen.width / 3,
+    //             left: 0,
+    //             top: 0,
+    //             type: "normal"
+    //         },
+    //         {
+    //             url: 'https://www.churchofjesuschrist.org/study?lang=',
+    //             height: screen.height,
+    //             width: screen.width / 3,
+    //             left: screen.width / 3,
+    //             top: 0,
+    //             type: "normal"
+    //         },
+    //         {
+    //             url: 'https://www.churchofjesuschrist.org/study?lang=',
+    //             height: screen.height,
+    //             width: screen.width / 3,
+    //             left: (screen.width / 3) * 2,
+    //             top: 0,
+    //             type: "normal"
+    //         },
+    //     ]
 
-    } else if (num_languages === 4) {
-        configs = [
-            {
-                url: 'https://www.churchofjesuschrist.org/study?lang=',
-                height: screen.height / 2,
-                width: screen.width / 2,
-                left: 0,
-                top: 0,
-                type: "normal"
-            },
-            {
-                url: 'https://www.churchofjesuschrist.org/study?lang=',
-                height: screen.height / 2,
-                width: screen.width / 2,
-                left: screen.width / 2,
-                top: 0,
-                type: "popup"
-            },
-            {
-                url: 'https://www.churchofjesuschrist.org/study?lang=',
-                height: screen.height / 2,
-                width: screen.width / 2,
-                left: 0,
-                top: screen.height / 2,
-                type: "popup"
-            },
-            {
-                url: 'https://www.churchofjesuschrist.org/study?lang=',
-                height: screen.height / 2,
-                width: screen.width / 2,
-                left: screen.width / 2,
-                top: screen.height / 2,
-                type: "popup"
-            },
-        ]
+    // } else {
+    //     alert('You must choose at least 2 languages')
+    // }
 
-    } else {
+    if (!selected_langs.length) {
         alert('You must choose at least 2 languages')
+        return;
     }
-
-    if (!configs) return;
-    let tabs = []
-    let promises = []
-    selected_langs.forEach((select, i) => {
-        let config = configs[i]
-        config.url = config.url + select.value
-        promises.push(new Promise((resolve, reject) => {
-            chrome.windows.create(config, window => {
-                resolve(window.tabs[0])
-            });
-        }))
-    })
-    Promise.all(promises).then(tabs => {
-        chrome.runtime.sendMessage({ msg: 'create-windows', tabs }, response => { });
-    })
+    chrome.runtime.sendMessage({ msg: 'get-langs', langs: selected_langs }, response => {
+        console.log(response.langs);
+    });
 })
+
+// setTimeout(() => {
+//     view.click();
+// }, 10);

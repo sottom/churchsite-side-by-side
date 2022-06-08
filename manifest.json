@@ -1,5 +1,5 @@
 {
-  "name": "Church of Jesus Christ Site Side by Side",
+  "name": "test - Church of Jesus Christ Site Side by Side",
   "version": "0.0.1",
   "description": "Read the Church of Jesus Christ of Latter-Day Saints website in up to 4 different languages side by side.",
   "permissions": [
@@ -12,8 +12,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.churchofjesuschrist.org/*",
-        "http://www.churchofjesuschrist.org/*"
+        "https://*.churchofjesuschrist.org/*",
+        "http://*.churchofjesuschrist.org/*"
       ],
       "js": [
         "content.js"
