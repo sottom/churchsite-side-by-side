@@ -1,3 +1,6 @@
+<!-- PURPOSE_SUMMARY -->
+**Purpose:** Chrome extension that opens ChurchofJesusChrist.org content in multiple languages side by side for comparison.
+
 # Church Site Side by Side
 The docs are very incomplete. Sorry.
 
